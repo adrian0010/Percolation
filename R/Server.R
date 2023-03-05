@@ -2,7 +2,7 @@
 
 ### Server
 server = function(input, output) {
-	output$txtTitle = renderText("Percolation: Uniform Random Lattice");
+	output$txtTitleSimple = renderText("Percolation: Uniform Random Lattice");
 	
 	values = reactiveValues();
 	values$m = NULL;
@@ -11,7 +11,7 @@ server = function(input, output) {
 	
 	
 	### Basic Model
-	output$PercolationBasic = renderPlot({
+	output$PercolationSimple = renderPlot({
 		if(is.null(values$m)) {
 			# Initialize Lattice:
 			m = rgrid.unif(c(100, 50));

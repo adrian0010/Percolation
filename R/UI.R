@@ -1,11 +1,11 @@
 
 
-ui = fluidPage("Epidemic Simulation", shinyjs::useShinyjs(),
+ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 		tabsetPanel(
 			tabPanel("Percolation Process",
 				fluidRow(
-					column(4, textOutput("txtTitle")) ),
-				plotOutput("PercolationBasic"),
+					column(4, textOutput("txtTitleSimple")) ),
+				plotOutput("PercolationSimple"),
 				
 				fluidRow(
 					column(4,

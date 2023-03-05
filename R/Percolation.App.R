@@ -2,7 +2,7 @@ library(shiny)
 library(shinyjs)
 library(shinyBS)
 
-setwd("/home/adrian/Facultate/Licenta/src/")
+setwd("/home/adrian/Facultate/Licenta/Percolation/R/")
 
 
 ### App
