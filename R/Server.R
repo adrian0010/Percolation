@@ -8,15 +8,20 @@ server = function(input, output) {
 	values$m = NULL;
 	values$r = NULL;
 
+
+
+	imageGenerator = reactive({
+		print("Se executa")
+	
+		m = rgrid.unif(c(input$heightSimple, input$widthSimple));
+		values$m = m;
+	})
 	
 	
 	### Basic Model
 	output$PercolationSimple = renderPlot({
-		if(is.null(values$m)) {
-			# Initialize Lattice:
-			m = rgrid.unif(c(100, 50));
-			values$m = m;
-		}
+		
+	imageGenerator();
 	m = values$m;
     p = input$probSimple;
 	m = as.grid(m, p);
