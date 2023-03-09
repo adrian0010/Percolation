@@ -6,7 +6,7 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 				fluidRow(
 					column(4, textOutput("txtTitleSimple")) ),
 				plotOutput("PercolationSimple"),
-				
+				tableOutput("Statistics"),
 				fluidRow(
 					column(4,
 						sliderInput(inputId = "probSimple", label = "Probability Cutoff",
