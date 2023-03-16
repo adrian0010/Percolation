@@ -17,9 +17,17 @@ server = function(input, output) {
 		values$m = m;
 	})
 	
-	analyseChannels = function(x) {
-		# numar coloane
-		nc = ncol(x);
+	analyse.Channels = function(x) {
+		ids = Channels(x);
+
+
+		result = data.frame(
+			Channels = c("Left", "Percolating", "Right"),  
+			Number = c(length(ids$L), length(ids$P), length(ids$R)));
+	}
+
+	Channels = function(x) {
+		nc = ncol(x);	# numar coloane
 		id1 = unique(x[,1]);
 		id1 = id1[id1 > 0];
 		id2 = unique(x[,nc]);
@@ -34,16 +42,39 @@ server = function(input, output) {
 			id1 = setdiff(id1, id2);
 			id3 = setdiff(id3, id2);
 		}
-		print(id1);
-		print(id2);
-		print(id3);
-		result = c(length(id1), length(id2), length(id3));
-		return(result);
+		result = list(L = id1, P = id2, R = id3);
+		return (result);
 	}
 	
+
+	analyse.Area = function(x) {
+	count = table(x)
+	idVal = as.integer(names(count))
+
+	areas = data.frame(ID = idVal,
+						Area = unclass(count))
+
+	ids = Channels(x);
+	
+
+	countGroup = function(id) {
+		isGroup = which(idVal %in% id);
+		sum(count[isGroup]);
+	}
+
+	result = c(countGroup(-1), countGroup(0), 
+			countGroup(ids$L), countGroup(ids$P), countGroup(ids$R));
+	result = data.frame(
+			Group = c("Blocks", "Free", "Left","Percolating", "Right"), 
+			Area = result);
+
+
+	return(result);
+	}
+
+
 	### Basic Model
 	output$PercolationSimple = renderPlot({
-		
 	imageGenerator();
 	m = values$m;
     p = input$probSimple;
@@ -53,8 +84,18 @@ server = function(input, output) {
 	plot.rs(r);
 	})
 
-	output$Statistics =renderTable({
-		statChannels = analyseChannels(values$r);
+	output$Statistics = renderTable({
+		if(is.null(values$r)){
+			return();
+		}
+		statChannels = analyse.Channels(values$r);
+	})
+
+	output$Area = renderTable({
+		if(is.null(values$r)){
+			return();
+		}
+		areas = analyse.Area(values$r);
 	})
 }
 
