@@ -1,6 +1,4 @@
-
-
-### Server
+	### Server
 server = function(input, output) {
 	output$txtTitleSimple = renderText("Percolation: Uniform Random Lattice");
 	
@@ -48,28 +46,28 @@ server = function(input, output) {
 	
 
 	analyse.Area = function(x) {
-	count = table(x)
-	idVal = as.integer(names(count))
+		count = table(x)
+		idVal = as.integer(names(count))
 
-	areas = data.frame(ID = idVal,
-						Area = unclass(count))
+		areas = data.frame(ID = idVal,
+							Area = unclass(count))
 
-	ids = Channels(x);
-	
+		ids = Channels(x);
+		
 
-	countGroup = function(id) {
-		isGroup = which(idVal %in% id);
-		sum(count[isGroup]);
-	}
+		countGroup = function(id) {
+			isGroup = which(idVal %in% id);
+			sum(count[isGroup]);
+		}
 
-	result = c(countGroup(-1), countGroup(0), 
-			countGroup(ids$L), countGroup(ids$P), countGroup(ids$R));
-	result = data.frame(
-			Group = c("Blocks", "Free", "Left","Percolating", "Right"), 
-			Area = result);
+		result = c(countGroup(-1), countGroup(0), 
+				countGroup(ids$L), countGroup(ids$P), countGroup(ids$R));
+		result = data.frame(
+				Group = c("Blocks", "Free", "Left","Percolating", "Right"), 
+				Area = result);
 
 
-	return(result);
+		return(result);
 	}
 
 
