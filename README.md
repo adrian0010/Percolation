@@ -24,3 +24,5 @@ You need to do the following to run the application
 ```R
 shinyApp(ui=ui, server=server, options = list(port = 9090))
 ```
+
+If the webserver does not start, it could be because port 9090 is already being used by another application. In this case, you can try changing the port number.
