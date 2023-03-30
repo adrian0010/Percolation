@@ -158,7 +158,7 @@ rblock.gen = function(n, block.dim, min=0, max, prob, val=-1) {
 }
 
 # ppore, pblock = Poisson distributions;
-rliniar.gen = function(n, w, d, ppore=3, pblock=0.5, val=-1) {
+rliniar.gen = function(n, w, d=5, ppore=3, pblock=0.5, val=-1) {
 	# n = no. of channels;
 	# w = width of material/grid; d = width of channel;
 	nc = d*n+n+1;
@@ -184,6 +184,36 @@ rliniar.gen = function(n, w, d, ppore=3, pblock=0.5, val=-1) {
 	
 	return(t(m));
 }
+
+
+rgrid.channel.poisson = function(n, w, d=3, ppore=6, pblock=4, val=-1) {
+	# n = no. of channels;
+	# w = width of material/grid; d = width of channel;
+	nc = d*n+n+1;
+	m = matrix(0, nrow=w, ncol=nc);
+	# Channel walls
+	idChW = seq(1, nc, by = d + 1)
+	m[, idChW] = val;
+	# add Pores
+	npores = rpois(length(idChW), ppore)
+	xwidth = seq(w);
+	for(id in seq(n+1)) {
+		xPore = sample(xwidth, npores[id])
+		m[xPore, idChW[id]] = runif(npores[id]);
+	}
+	# block Channels
+	nBlock = rpois(n, pblock)
+	for(id in seq(n)) {
+		if(nBlock[id] == 0) next;
+		xBlock = sample(xwidth, nBlock[id]);
+		# (id-1)*(d+1)+1
+		m[xBlock, seq(idChW[id] + 1, length.out=d)] = val;
+	}
+	
+	return(t(m));
+}
+
+
 rlinwalk.gen = function(n, w, d, walk=c(-1,0,1), pwalk=c(1,2,1), ppore=3,
 		first.const=TRUE, duplicate.at=NULL, val=-1) {
 	# n = no. of channels; w = width of Material;
