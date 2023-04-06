@@ -385,3 +385,25 @@ surface.contact = function(x, id, val = -1) {
 	countSurface = sum(m[idSel] == val);
 	return(countSurface);
 }
+
+
+# x = matrix with highlighted channels (e.g. processed using flood.all);
+# id = id of channel;
+as.surface.contact = function(x, id, val = -1) {
+	m = select.subgrid(x, id, pad.val = val - 1);
+	nrSel = nrow(m);
+	idSel = which(m == id);
+	idSel = c(idSel - nrSel, idSel - 1, idSel + 1, idSel + nrSel);
+	idSel = sort(unique(idSel));
+	isSurface = (m[idSel] == val);
+	mmSurface = array(FALSE, dim(m));
+	mmSurface[idSel][isSurface] = TRUE;
+	mmSurface = mmSurface[ - c(1, nrow(m)), - c(1, ncol(m))];
+	nrSelLim = attr(m, "nr");
+	isPadded = attr(m, "pad");
+	nc  = ncol(x);
+	mm0 = array(FALSE, c(nrSelLim[1] - 1, nc));
+	mm1 = array(FALSE, c(nrow(x) - nrSelLim[2], nc));
+	mmSurface = rbind(mm0, mmSurface, mm1);
+	invisible(mmSurface);
+}
