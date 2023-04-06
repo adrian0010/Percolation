@@ -100,3 +100,48 @@ norm.flux = function(m, add=0) {
 	m[m > 0] = abs(log(add + m[m > 0]))
 	invisible(m)
 }
+
+select.subgrid = function(x, id, pad.val = -1) {
+	nrAll = nrow(x);
+	nrStart = 0;
+	for(nr in seq(nrAll)) {
+		if(any(x[nr,] == id)) {
+			nrStart = nr; break;
+		}
+	}
+	if(nrStart == 0) return(0);
+	#
+	nrEnd = 0;
+	for(nr in rev(seq(nrAll))) {
+		if(any(x[nr,] == id)) {
+			nrEnd = nr; break;
+		}
+	}
+	#
+	if(is.null(pad.val)) return(x[seq(nrStart, nrEnd), ]);
+	#
+	nrStart0 = nrStart; nrEnd0 = nrEnd;
+	if(nrStart == 1) {
+		padStart = TRUE;
+	} else {
+		padStart = FALSE;
+		nrStart = nrStart - 1;
+	}
+	if(nrEnd == nr) {
+		padEnd = TRUE;
+	} else {
+		padEnd = FALSE;
+		nrEnd = nrEnd + 1;
+	}
+	m = x[seq(nrStart, nrEnd), ];
+	#
+	nc = ncol(x);
+	if(padStart) m = rbind(rep(pad.val, nc), m);
+	if(padEnd) m = rbind(m, rep(pad.val, nc));
+	nrSel = nrow(m);
+	pad = rep(pad.val, nrSel);
+	m = cbind(pad, m, pad);
+	attr(m, "pad") = c(padStart, padEnd);
+	attr(m, "nr") = c(nrStart0, nrEnd0);
+	return(m);
+}
