@@ -375,3 +375,13 @@ diffusion.dynamic = function(m, id, iter=40, val0 = 1.0, debug=TRUE) {
 	p.m[p.m < 0 & m > 0] =  0; # other non-connected "paths";
 	return(p.m);
 }
+
+surface.contact = function(x, id, val = -1) {
+	m = select.subgrid(x, id, pad.val = val - 1);
+	nrSel = nrow(m);
+	idSel = which(m == id);
+	idSel = c(idSel - nrSel, idSel - 1, idSel + 1, idSel + nrSel);
+	idSel = sort(idSel);
+	countSurface = sum(m[idSel] == val);
+	return(countSurface);
+}
