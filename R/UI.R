@@ -48,11 +48,11 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 							value = 0.5, min = 0, max = 1, step = 0.01)
 					),
 					column(4,
-						sliderInput(inputId = "ppore", label = "Pore prob",
+						sliderInput(inputId = "probPoreLinear", label = "Pore prob",
 							value = 4, min = 0, max = 10, step = 1)
 					),
 					column(4,
-						sliderInput(inputId = "pblock", label = "Block prob",
+						sliderInput(inputId = "probBlockLinear", label = "Block prob",
 							value = 5, min = 0, max = 10, step = 1)
 					),
 				)
