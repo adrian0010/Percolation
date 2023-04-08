@@ -5,10 +5,12 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 			tabPanel("Percolation Process",
 				fluidRow(
 					column(4, textOutput("txtTitleSimple")) ),
-				plotOutput("PercolationSimple"),
 				fluidRow(
-					column(4, tableOutput("Statistics")),
-					column(4, tableOutput("Area"))
+						column(8, plotOutput("PercolationSimple")),
+						column(4,
+							column(12, fluidRow(tableOutput("Statistics"))),
+							column(12, fluidRow(tableOutput("Area"))),
+						)
 				),
 				fluidRow(
 					column(4,
