@@ -27,10 +27,12 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 			tabPanel("Linear Channels",
 				fluidRow(
 					column(4, textOutput("txtTitleLinear"))),
-				plotOutput("LinearChannels"),
 				fluidRow(
-					column(4, tableOutput("StatisticsLinear")),
-					column(4, tableOutput("AreaLinear")),
+						column(8, plotOutput("LinearChannels")),
+						column(4,
+							column(12, fluidRow(tableOutput("StatisticsLinear"))),
+							column(12, fluidRow(tableOutput("AreaLinear"))),
+						)
 				),
 				fluidRow(
 					column(4,
