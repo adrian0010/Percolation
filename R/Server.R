@@ -7,6 +7,7 @@ server = function(input, output) {
 	values$m = NULL;
 	values$r = NULL;
 	values$ml = NULL;
+	values$rl = NULL;
 
 
 
@@ -113,8 +114,22 @@ server = function(input, output) {
 		p = input$probLinear;
 		m = as.grid(m, p);
 		r = flood.all(m);
-		values$r = r;
+		values$rl = r;
 		plot.rs(r);
+	})
+	
+	output$StatisticsLinear = renderTable({
+		if(is.null(values$rl)){
+			return();
+		}
+		statChannels = analyse.Channels(values$rl);
+	})
+
+	output$AreaLinear = renderTable({
+		if(is.null(values$rl)){
+			return();
+		}
+		areas = analyse.Area(values$rl);
 	})
 
 }

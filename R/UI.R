@@ -29,6 +29,10 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 					column(4, textOutput("txtTitleLinear"))),
 				plotOutput("LinearChannels"),
 				fluidRow(
+					column(4, tableOutput("StatisticsLinear")),
+					column(4, tableOutput("AreaLinear")),
+				),
+				fluidRow(
 					column(4,
 						sliderInput(inputId = "heightLinear", label = "Height",
 							value = 100, min = 40, max = 400, step = 20)
