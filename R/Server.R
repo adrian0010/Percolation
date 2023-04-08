@@ -20,7 +20,8 @@ server = function(input, output) {
 	imageChannelGenerator = reactive({
 		print("Se executa")
 	
-		m = rgrid.channel.poisson(40, input$widthLinear, d = 2, val = 1.1);
+		m = rgrid.channel.poisson(input$heightLinear / 2, input$widthLinear, 
+									d = 2, ppore = input$ppore, pblock = input$pblock, val = 1.1);
 		values$ml = m;
 	})
 	
@@ -106,7 +107,7 @@ server = function(input, output) {
 	})
 
 ### Linear Channels
-	output$LinearChannels = renderTable({
+	output$LinearChannels = renderPlot({
 		imageChannelGenerator()
 		m = values$ml;
 		p = input$probLinear;
