@@ -1,10 +1,13 @@
 	### Server
 server = function(input, output) {
-	output$txtTitleSimple = renderText("Percolation: Uniform Random Lattice");
+	output$txtTitleSimple = renderText("Percolation: Uniform Random Lattice")
+	output$txtTitleLinear = renderText("Percolation: Linear Channels")
 	
 	values = reactiveValues();
 	values$m = NULL;
 	values$r = NULL;
+	values$ml = NULL;
+	values$rl = NULL;
 
 
 
@@ -13,6 +16,14 @@ server = function(input, output) {
 	
 		m = rgrid.unif(c(input$heightSimple, input$widthSimple));
 		values$m = m;
+	})
+
+	imageChannelGenerator = reactive({
+		print("Se executa")
+	
+		m = rgrid.channel.poisson(input$heightLinear / 2, input$widthLinear, 
+									d = 2, ppore = input$ppore, pblock = input$pblock, val = 1.1);
+		values$ml = m;
 	})
 	
 	analyse.Channels = function(x) {
@@ -63,7 +74,7 @@ server = function(input, output) {
 		result = c(countGroup(-1), countGroup(0), 
 				countGroup(ids$L), countGroup(ids$P), countGroup(ids$R));
 		result = data.frame(
-				Group = c("Blocks", "Free", "Left","Percolating", "Right"), 
+				Group = c("Blocks", "Free", "Left", "Percolating", "Right"),
 				Area = result);
 
 
@@ -95,6 +106,36 @@ server = function(input, output) {
 		}
 		areas = analyse.Area(values$r);
 	})
+
+### Linear Channels
+	output$LinearChannels = renderPlot({
+		imageChannelGenerator()
+		m = values$ml;
+		p = input$probLinear;
+		m = as.grid(m, p);
+		r = flood.all(m);
+		values$rl = r;
+		plot.rs(r);
+	})
+	
+	output$StatisticsLinear = renderTable({
+		if(is.null(values$rl)){
+			return();
+		}
+		statChannels = analyse.Channels(values$rl);
+	})
+
+	output$AreaLinear = renderTable({
+		if(is.null(values$rl)){
+			return();
+		}
+		areas = analyse.Area(values$rl);
+	})
+
 }
 
 # val.unique = unique(r[1])
+
+
+### Linear Channels
+
