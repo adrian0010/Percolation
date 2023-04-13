@@ -22,7 +22,7 @@ server = function(input, output) {
 		print("Se executa")
 	
 		m = rgrid.channel.poisson(input$heightLinear / 2, input$widthLinear, 
-						d = 2, ppore = input$probPoreLinear, pblock = input$probBlockLinear, val = 1.1);
+			d = 1, ppore = input$probPoreLinear, pblock = input$probBlockLinear, val = 1.1);
 		values$ml = m;
 	})
 	
@@ -115,7 +115,8 @@ server = function(input, output) {
 		m = as.grid(m, p);
 		r = flood.all(m);
 		values$rl = r;
-		plot.rs(r);
+		# TODO global option
+		plot.rs(expand.channel(r, 3));
 	})
 	
 	output$StatisticsLinear = renderTable({
