@@ -22,7 +22,8 @@ server = function(input, output) {
 		print("Se executa")
 	
 		m = rgrid.channel.poisson(input$heightLinear / 2, input$widthLinear, 
-			d = 1, ppore = input$probPoreLinear, pblock = input$probBlockLinear, val = 1.1);
+			d = 1, ppore = input$probPoreLinear, pBlock = input$probBlockLinear, val = 1.1);
+			# type = input$blockTypeLinear
 		values$ml = m;
 	})
 	

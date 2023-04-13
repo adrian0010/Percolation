@@ -186,9 +186,11 @@ rliniar.gen = function(n, w, d=5, ppore=3, pblock=0.5, val=-1) {
 }
 
 
-rgrid.channel.poisson = function(n, w, d=3, ppore=6, pblock=4, val=-1) {
+rgrid.channel.poisson = function(n, w, d=3, ppore=6, pBlock=4, 
+						type = c("Poisson", "Constant", "0:n", "1:n"), val=-1) {
 	# n = no. of channels;
 	# w = width of material/grid; d = width of channel;
+	type = match.arg(type);
 	nc = d*n+n+1;
 	m = matrix(0, nrow=w, ncol=nc);
 	# Channel walls
@@ -202,7 +204,18 @@ rgrid.channel.poisson = function(n, w, d=3, ppore=6, pblock=4, val=-1) {
 		m[xPore, idChW[id]] = runif(npores[id]);
 	}
 	# block Channels
-	nBlock = rpois(n, pblock)
+	if(type == "Poisson"){
+		nBlock = rpois(n, pBlock)
+	}
+	else if (type == "Constant") {
+	   	nBlock = rep(pBlock, n)
+	}
+	else if (type == "0:n") {
+	   	nBlock = sample(0:pBlock, n, replace = TRUE)
+	}
+	else if (type == "1:n") {
+	   	nBlock = sample(1:pBlock, n, replace = TRUE)
+	}
 	for(id in seq(n)) {
 		if(nBlock[id] == 0) next;
 		xBlock = sample(xwidth, nBlock[id]);
