@@ -8,9 +8,9 @@ The primary focus of this project is the simulation of certain biophysical or bi
 
 ### Packages to install
 ```R
-install.package(shiny)
-install.package(shinyjs)
-install.package(shinyBS)
+install.packages("shiny")
+install.packages("shinyjs")
+install.packages("shinyBS")
 ```
 
 ### Run
