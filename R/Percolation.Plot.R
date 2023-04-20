@@ -117,3 +117,11 @@ split.rs = function(m, n=5, from=1, max.len=5, w=10) {
 	attr(m2, "split") = list(n=n, from=from, max.len=max.len, w=w);
 	invisible(m2);
 }
+
+# Plot border around Channel
+plot.surface = function(m, id, col = "#1624C0") {
+	csf = as.surface.contact(m, id = id);
+	img = toRaster(m);
+	img[csf] = col;
+	plot.rs(img);
+}

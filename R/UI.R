@@ -26,11 +26,23 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 							value = 50, min = 20, max = 200, step = 10))
 				)
 			),
+
+			tabPanel("Details",
+				fluidRow(
+					column(4, textOutput("txtTitleDetails")),
+					column(4, selectInput(inputId = "typeDetails", label = "Analisys Type",
+					c("Channel Length" = "Channel Length", "Border" = "Border"))),
+				),
+				fluidRow(
+					column(8, plotOutput("plotDetails"))
+				)
+			),
+
 			tabPanel("Linear Channels",
 				fluidRow(
 					column(4, textOutput("txtTitleLinear"))),
 				fluidRow(
-						column(8, plotOutput("LinearChannels")),
+						column(8, plotOutput("channelsLinear")),
 						column(4,
 							column(12, fluidRow(tableOutput("StatisticsLinear"))),
 							column(12, fluidRow(tableOutput("AreaLinear"))),

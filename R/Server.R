@@ -2,6 +2,7 @@
 server = function(input, output) {
 	output$txtTitleSimple = renderText("Percolation: Uniform Random Lattice")
 	output$txtTitleLinear = renderText("Percolation: Linear Channels")
+	output$txtTitleDetails = renderText("Detailed Analysis & Visualization")
 	
 	values = reactiveValues();
 	values$m = NULL;
@@ -107,8 +108,25 @@ server = function(input, output) {
 		areas = analyse.Area(values$r);
 	})
 
+### Details
+	output$plotDetails = renderPlot({
+		if(is.null(values$r)){
+			return()
+		}
+		id = 1;
+		if(input$typeDetails == "Channel Length"){
+			plot.rs(length.path(values$r, id))
+		}
+		else {
+			plot.surface(values$r, id)
+		}
+		 
+		
+	})
+
+
 ### Linear Channels
-	output$LinearChannels = renderPlot({
+	output$channelsLinear = renderPlot({
 		imageChannelGenerator()
 		m = values$ml;
 		p = input$probLinear;
