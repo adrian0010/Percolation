@@ -42,23 +42,29 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 							value = 100, min = 40, max = 400, step = 20)
 					),
 					column(4,
-						sliderInput(inputId = "widthLinear", label = "Width",
-							value = 50, min = 20, max = 200, step = 10)
-					)
-				),
-				fluidRow(
-					column(4,
 						sliderInput(inputId = "probLinear", label = "Probability Cutoff",
 							value = 0.5, min = 0, max = 1, step = 0.01)
 					),
 					column(4,
 						sliderInput(inputId = "probPoreLinear", label = "Pore prob",
 							value = 4, min = 0, max = 10, step = 1)
+					)
+				),
+				fluidRow(
+					column(4,
+						sliderInput(inputId = "widthLinear", label = "Width",
+							value = 50, min = 20, max = 200, step = 10)
 					),
+					column(4,
+						selectInput(inputId = "blockTypeLinear", label = "Block Type",
+						c("Poisson" = "Poisson",
+						 "Constant" = "Constant",
+						 "Range 0:n" = "0:n", 
+						 "Range 1:n" = "1:n"))),
 					column(4,
 						sliderInput(inputId = "probBlockLinear", label = "Block prob",
 							value = 5, min = 0, max = 10, step = 1)
-					),
+					)
 				)
 				
 			)
