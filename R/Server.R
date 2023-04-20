@@ -1,5 +1,5 @@
 	### Server
-server = function(input, output) {
+server = function(input, output, session) {
 	output$txtTitleSimple = renderText("Percolation: Uniform Random Lattice")
 	output$txtTitleLinear = renderText("Percolation: Linear Channels")
 	output$txtTitleDetails = renderText("Detailed Analysis & Visualization")
@@ -109,19 +109,32 @@ server = function(input, output) {
 	})
 
 ### Details
+	idChannels = function(x){
+		which.percol(x)
+	}
+
+	observe({
+		if(is.null(values$r)){
+			return()
+		}
+		ids = idChannels(values$r)
+		updateSelectInput(session, "idDetails",
+			choices = ids,
+			selected = head(ids, 1)
+    	)
+	})
+
 	output$plotDetails = renderPlot({
 		if(is.null(values$r)){
 			return()
 		}
-		id = 1;
+		id = input$idDetails;
 		if(input$typeDetails == "Channel Length"){
 			plot.rs(length.path(values$r, id))
 		}
 		else {
 			plot.surface(values$r, id)
 		}
-		 
-		
 	})
 
 
