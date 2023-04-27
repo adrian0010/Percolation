@@ -61,9 +61,11 @@ shuffle.colors = function(m) {
 }
 which.percol = function(m) {
 	nc = ncol(m);
-	id = unique(m[, nc]);
-	id = id[id > 0];
-	return(id);
+	id1 = unique(m[, 1]);
+	id2 = unique(m[, nc]);
+	id2 = id2[id2 > 0];
+	idP = intersect(id2, id1);
+	return(idP);
 }
 as.logical.percol = function(m, percolates=TRUE) {
 	id = which.percol(m);
