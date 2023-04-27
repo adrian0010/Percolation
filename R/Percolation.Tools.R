@@ -149,13 +149,14 @@ expand.channel = function(m, d=3, d0=1) {
 	nr = nrow(m);
 	id.bl = seq(1, nr, by = d0 + 1);
 	last  = length(id.bl);
+	id.bn = id.bl[last];
 	id.bl = id.bl[ - last];
 	id.ch = id.bl + 1;
 	id.ch = rep(id.ch, each = d);
 	id.ch = matrix(id.ch, nrow = d);
 	id = rbind(id.bl, id.ch);
 	id = as.vector(id);
-	id = c(id, last); # last delimiting wall;
+	id = c(id, id.bn); # last delimiting wall;
 	mr = m[id,];
 	invisible(mr);
 }
