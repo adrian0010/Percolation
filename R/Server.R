@@ -109,9 +109,14 @@ server = function(input, output, session) {
 	})
 
 ### Details
-	idChannels = function(x){
-		which.percol(x)
+idChannels = function(x) {
+	id = which.percol(x)
+	if(length(id) == 0) {
+		id = unique(x[,1]);
+		id = id[id > 0];
 	}
+	return(id);
+}
 
 	observe({
 		if(is.null(values$r)){
