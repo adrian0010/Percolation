@@ -24,6 +24,10 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 					column(4,
 						sliderInput(inputId = "widthSimple", label = "Width", 
 							value = 50, min = 20, max = 200, step = 10))
+				),
+				fluidRow(
+					column(4,
+						actionButton("newSimple", "New Material"))
 				)
 			),
 
@@ -79,6 +83,10 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 						sliderInput(inputId = "probBlockLinear", label = "Block prob",
 							value = 5, min = 0, max = 10, step = 0.1)
 					)
+				),
+				fluidRow(
+					column(4,
+						actionButton("newLinear", "New Material"))
 				)
 				
 			)

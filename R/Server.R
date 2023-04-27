@@ -12,14 +12,16 @@ server = function(input, output, session) {
 
 
 
-	imageGenerator = reactive({
+	imageGeneratorSimple = reactive({
+		input$newSimple;
 		print("Se executa")
 	
 		m = rgrid.unif(c(input$heightSimple, input$widthSimple));
 		values$m = m;
 	})
 
-	imageChannelGenerator = reactive({
+	imageGeneratorLinear = reactive({
+		input$newLinear;
 		print("Se executa")
 	
 		m = rgrid.channel.poisson(input$heightLinear /3, input$widthLinear, 
@@ -85,13 +87,14 @@ server = function(input, output, session) {
 
 	### Basic Model
 	output$PercolationSimple = renderPlot({
-	imageGenerator();
-	m = values$m;
-    p = input$probSimple;
-	m = as.grid(m, p);
-	r = flood.all(m);
-	values$r = r;
-	plot.rs(r);
+		
+		imageGeneratorSimple();
+		m = values$m;
+		p = input$probSimple;
+		m = as.grid(m, p);
+		r = flood.all(m);
+		values$r = r;
+		plot.rs(r);
 	})
 
 	output$Statistics = renderTable({
@@ -145,7 +148,7 @@ idChannels = function(x) {
 
 ### Linear Channels
 	output$channelsLinear = renderPlot({
-		imageChannelGenerator()
+		imageGeneratorLinear()
 		m = values$ml;
 		p = input$probLinear;
 		m = as.grid(m, p);
