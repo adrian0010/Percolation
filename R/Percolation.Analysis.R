@@ -442,3 +442,56 @@ length.channel.linear = function(m, d=1, drop.pores=TRUE, rm.id = c(-1,0)) {
 	area$Len = as.integer(area$Len)
 	return(area);
 }
+
+height.channel = function(m, id, val=-1, verbose = TRUE) {
+	tmp = select.subgrid(m, id=id, pad.val = val - 1);
+	colnames(tmp) = NULL;
+	nrows0  = attr(tmp, "nr");
+	nStart  = which(tmp[,2] == id);
+	idStart = nrows0[1] + nStart - 1; # Original rows;
+	isChannel = idStart %% 2 == 1;
+	nStart = nStart[isChannel];
+	if(verbose) print(nStart);
+	tmp[tmp > 0] = 0;
+	tmp = t(tmp);
+	dim = dim(tmp);
+	# nStart = (nStart - 1) * dim[1] + 1;
+	tmp = heightChannel(nStart, tmp, dim[1], dim[2]);
+	tmp = array(tmp, dim);
+	tmp = t(tmp);
+	tmp = tmp[- c(1, nrow(tmp)), - c(1, ncol(tmp)), drop=FALSE];
+	attr(tmp, "nr") = nrows0;
+	invisible(tmp);
+}
+
+height.channel.all = function(m, verbose = FALSE, val=-1) {
+	m[m > 0] = 0;
+	m = t(m);
+	dim  = dim(m);
+	padx = rep(val - 1, dim[2]);
+	pady = rep(val - 1, dim[1] + 2);
+	m = rbind(padx, m, padx);
+	m = cbind(pady, m, pady);
+	dim = dim + 2;
+	nStart = seq(3, dim[2] - 1, by=2);
+	m = heightChannel(nStart, m, dim[1], dim[2], verbose=verbose);
+	dim = dim - 1;
+	m = m[2:dim[1], 2:dim[2]];
+	m = t(m);
+	invisible(m);
+}
+
+height.channel.debug = function(m, verbose = FALSE, val=-1) {
+	ids = unique(m[,1]);
+	ids = ids[ids > 0];
+	if(verbose) print(ids);
+	r = m;
+	r[r > 0] = 0; # required for Ideal Pores;
+	for(id in ids) {
+		tmp = height.channel(m, id=id, val=val, verbose=verbose);
+		nrs = attr(tmp, "nr");
+		isVal = tmp > 0;
+		r[seq(nrs[1], nrs[2]), ][isVal] = tmp[isVal];
+	}
+	invisible(r);
+}
