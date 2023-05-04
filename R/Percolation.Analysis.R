@@ -407,3 +407,38 @@ as.surface.contact = function(x, id, val = -1) {
 	mmSurface = rbind(mm0, mmSurface, mm1);
 	invisible(mmSurface);
 }
+
+### Total Length
+length.channel.linear = function(m, d=1, drop.pores=TRUE, rm.id = c(-1,0)) {
+	if(d < 1) stop("Invalid Diameter!");
+	rm.ids = function(tbl) {
+		ids = as.integer(names(tbl));
+		keep = ! (ids %in% rm.id);
+		ids = ids[keep];
+		tbl = tbl[keep];
+		return(data.frame(id=ids, Len = as.numeric(tbl)));
+	}
+	# Area Channels:
+	area = table(m);
+	area = rm.ids(area);	
+	# Area Pores:
+	id.row.walls = seq(1, nrow(m), by = d + 1);
+	area.pores = table(m[id.row.walls, ]);
+	area.pores = rm.ids(area.pores);
+	#
+	ids.diff = setdiff(area$id, area.pores$id);
+	if(length(ids.diff) > 0) {
+		tmp = data.frame(id = ids.diff, Len = 0);
+		area.pores = rbind(area.pores, tmp);
+	}
+	names(area.pores)[2] = "LenPores";
+	area = merge(area, area.pores, by = "id");
+	area$Len = area$Len - area$LenPores;
+	if(d != 1) area$Len = area$Len / d;
+	if(drop.pores) {
+		idPores = match("LenPores", names(area));
+		area = area[, - idPores];
+	}
+	area$Len = as.integer(area$Len)
+	return(area);
+}

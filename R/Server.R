@@ -111,7 +111,7 @@ server = function(input, output, session) {
 		areas = analyse.Area(values$r);
 	})
 
-### Details
+	### Details
 idChannels = function(x) {
 	id = which.percol(x)
 	if(length(id) == 0) {
@@ -146,7 +146,7 @@ idChannels = function(x) {
 	})
 
 
-### Linear Channels
+	### Linear Channels
 	output$channelsLinear = renderPlot({
 		imageGeneratorLinear()
 		m = values$ml;
@@ -172,10 +172,17 @@ idChannels = function(x) {
 		areas = analyse.Area(values$rl);
 	})
 
+	output$LengthLinear = renderTable({
+		if(is.null(values$rl)){
+			return()
+		}
+		length = length.channel.linear(values$rl)
+	})
+
 }
 
 # val.unique = unique(r[1])
 
 
-### Linear Channels
+	### Linearly Correlated Process
 
