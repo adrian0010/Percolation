@@ -96,10 +96,10 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 					column(4, textOutput("txtTitleLinearCorrelated"))),
 				fluidRow(
 						column(8, plotOutput("LinearCorrelated")),
-						# column(4,
-						# 	column(12, fluidRow(tableOutput("StatisticsLinear"))),
-						# 	column(12, fluidRow(tableOutput("AreaLinear"))),
-						# )
+						column(4,
+							column(12, fluidRow(tableOutput("StatisticsLinearCorrelated"))),
+							column(12, fluidRow(tableOutput("AreaLinearCorrelated"))),
+						)
 				),
 				fluidRow(
 					column(4,

@@ -205,6 +205,20 @@ server = function(input, output, session) {
 		plot.rs(r);
 	})
 
+	output$StatisticsLinearCorrelated = renderTable({
+		if(is.null(values$rlc)){
+			return();
+		}
+		statChannels = analyse.Channels(values$rlc);
+	})
+
+	output$AreaLinearCorrelated = renderTable({
+		if(is.null(values$rlc)){
+			return();
+		}
+		areas = analyse.Area(values$rlc);
+	})
+
 
 	
 
