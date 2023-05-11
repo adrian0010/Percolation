@@ -122,7 +122,7 @@ server = function(input, output, session) {
 		areas = analyse.Area(values$r);
 	})
 
-	### Details
+		### Details
 
 	# Which Percolates or all channels
 	idChannels = function(x) {
@@ -185,6 +185,13 @@ server = function(input, output, session) {
 		}
 		areas = analyse.Area(values$rl);
 	})
+	
+	output$LengthLinear = renderTable({
+		if(is.null(values$rl)){
+			return()
+		}
+		length = length.channel.linear(values$rl)
+	})
 
 	
 	### Linearly Correlated Process
@@ -198,6 +205,8 @@ server = function(input, output, session) {
 		plot.rs(r);
 	})
 
+
+	
 
 }
 
