@@ -3,12 +3,15 @@ server = function(input, output, session) {
 	output$txtTitleSimple = renderText("Percolation: Uniform Random Lattice")
 	output$txtTitleLinear = renderText("Percolation: Linear Channels")
 	output$txtTitleDetails = renderText("Detailed Analysis & Visualization")
+	output$txtTitleLinearCorreleted = renderText("Percolation: Linearly Correlated Procces")
 	
 	values = reactiveValues();
 	values$m = NULL;
 	values$r = NULL;
 	values$ml = NULL;
 	values$rl = NULL;
+	values$mlc = NULL;
+	values$rlc = NULL;
 
 
 
@@ -27,6 +30,15 @@ server = function(input, output, session) {
 		m = rgrid.channel.poisson(input$heightLinear /3, input$widthLinear, 
 			d = 1, type = input$blockTypeLinear, ppore = input$probPoreLinear, pBlock = input$probBlockLinear, val = 1.1);
 		values$ml = m;
+	})
+
+	imageGeneratorLinearCorrelated = reactive({
+		input$newLinearCorrelated;
+		dim = c(input$heightLinearCorrelated, input$widthLinearCorrelated);
+		print(input$pChangeLinearCorrelated)
+		m = rgrid.unifCor(dim,
+			pChange = input$pChangeLinearCorrelated, type = input$typeLinearCorrelated);
+		values$mlc = m;
 	})
 	
 	analyse.Channels = function(x) {
@@ -87,7 +99,6 @@ server = function(input, output, session) {
 
 	### Basic Model
 	output$PercolationSimple = renderPlot({
-		
 		imageGeneratorSimple();
 		m = values$m;
 		p = input$probSimple;
@@ -111,16 +122,19 @@ server = function(input, output, session) {
 		areas = analyse.Area(values$r);
 	})
 
-### Details
-idChannels = function(x) {
-	id = which.percol(x)
-	if(length(id) == 0) {
-		id = unique(x[,1]);
-		id = id[id > 0];
-	}
-	return(id);
-}
+	### Details
 
+	# Which Percolates or all channels
+	idChannels = function(x) {
+		id = which.percol(x)
+		if(length(id) == 0) {
+			id = unique(x[,1]);
+			id = id[id > 0];
+		}
+		return(id);
+	}
+
+	# Update list of Percolating Channels
 	observe({
 		if(is.null(values$r)){
 			return()
@@ -146,7 +160,7 @@ idChannels = function(x) {
 	})
 
 
-### Linear Channels
+	### Linear Channels
 	output$channelsLinear = renderPlot({
 		imageGeneratorLinear()
 		m = values$ml;
@@ -172,10 +186,22 @@ idChannels = function(x) {
 		areas = analyse.Area(values$rl);
 	})
 
+	
+	### Linearly Correlated Process
+	output$LinearCorrelated = renderPlot({
+		imageGeneratorLinearCorrelated()
+		m = values$mlc;
+		p = input$probLinearCorrelated;
+		m = as.grid(m, p);
+		r = flood.all(m);
+		values$rlc = r;
+		plot.rs(r);
+	})
+
+
 }
 
 # val.unique = unique(r[1])
 
 
-### Linear Channels
 

@@ -226,6 +226,38 @@ rgrid.channel.poisson = function(n, w, d=3, ppore=6, pBlock=4,
 	return(t(m));
 }
 
+### Linearly (H) Correlated Process
+# TODO: types = "Poisson", "Initial";
+# - Initial = start always from Initial row;
+rgrid.unifCor = function(dim, pChange=1/2, type = c("Constant", "Bernoulli")) {
+	type = match.arg(type);
+	nr = dim[1]; nc = dim[2];
+	m = matrix(0, nrow=nr, ncol=nc);
+	# Column 1:
+	if(nr == 0 || nc == 0) return(m);
+	m[, 1] = runif(nr);
+	if(nc == 1) return(m);
+	# Subsequent columns
+	if(type == "Constant") {
+		nCh = round(nr * pChange);
+		ids = seq(1, nr);
+		tmp = m[, 1];
+		for(i in seq(2, nc)) {
+			id = sample(ids, nCh);
+			tmp[id] = runif(nCh);
+			m[, i]  = tmp;
+		}
+	} else {
+		tmp = m[, 1];
+		for(i in seq(2, nc)) {
+			ids = as.logical(rbinom(nr, 1, pChange));
+			tmp[ids] = runif(sum(ids));
+			m[, i] = tmp;
+		}
+	}
+	return(m)
+}
+
 
 rlinwalk.gen = function(n, w, d, walk=c(-1,0,1), pwalk=c(1,2,1), ppore=3,
 		first.const=TRUE, duplicate.at=NULL, val=-1) {
