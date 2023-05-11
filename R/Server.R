@@ -122,7 +122,7 @@ server = function(input, output, session) {
 		areas = analyse.Area(values$r);
 	})
 
-		### Details
+	### Details
 
 	# Which Percolates or all channels
 	idChannels = function(x) {
