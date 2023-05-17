@@ -30,6 +30,46 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 						actionButton("newSimple", "New Material"))
 				)
 			),
+			tabPanel("Linearly Correlated Process",
+				fluidRow(
+					column(4, textOutput("txtTitleLinearCorrelated"))),
+				fluidRow(
+						column(8, plotOutput("LinearCorrelated")),
+						column(4,
+							column(12, fluidRow(tableOutput("StatisticsLinearCorrelated"))),
+							column(12, fluidRow(tableOutput("AreaLinearCorrelated"))),
+						)
+				),
+				fluidRow(
+					column(4,
+						sliderInput(inputId = "heightLinearCorrelated", label = "Height",
+							value = 100, min = 40, max = 400, step = 20)
+					),
+					column(4,
+						sliderInput(inputId = "pChangeLinearCorrelated", label = "Change Probability",
+							value = 0.5, min = 0, max = 1, step = 0.01)
+					),
+					column(4,
+						sliderInput(inputId = "probLinearCorrelated", label = "Probability Cutoff",
+							value = 0.5, min = 0, max = 1, step = 0.01)
+					)
+				),
+				fluidRow(
+					column(4,
+						sliderInput(inputId = "widthLinearCorrelated", label = "Width",
+							value = 50, min = 20, max = 200, step = 10)
+					),
+					column(4,
+						selectInput(inputId = "typeLinearCorrelated", label = "Type",
+						c("Constant" = "Constant",
+						 "Bernoulli" = "Bernoulli"))
+					)
+				),
+				fluidRow(
+					column(4,
+						actionButton("newLinearCorrelated", "New Material"))
+				)
+			),
 
 			tabPanel("Details",
 				fluidRow(
@@ -90,46 +130,6 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 						actionButton("newLinear", "New Material"))
 				)
 				
-			),
-			tabPanel("Linearly Correlated Process",
-				fluidRow(
-					column(4, textOutput("txtTitleLinearCorrelated"))),
-				fluidRow(
-						column(8, plotOutput("LinearCorrelated")),
-						column(4,
-							column(12, fluidRow(tableOutput("StatisticsLinearCorrelated"))),
-							column(12, fluidRow(tableOutput("AreaLinearCorrelated"))),
-						)
-				),
-				fluidRow(
-					column(4,
-						sliderInput(inputId = "heightLinearCorrelated", label = "Height",
-							value = 100, min = 40, max = 400, step = 20)
-					),
-					column(4,
-						sliderInput(inputId = "pChangeLinearCorrelated", label = "Change Probability",
-							value = 0.5, min = 0, max = 1, step = 0.01)
-					),
-					column(4,
-						sliderInput(inputId = "probLinearCorrelated", label = "Probability Cutoff",
-							value = 0.5, min = 0, max = 1, step = 0.01)
-					)
-				),
-				fluidRow(
-					column(4,
-						sliderInput(inputId = "widthLinearCorrelated", label = "Width",
-							value = 50, min = 20, max = 200, step = 10)
-					),
-					column(4,
-						selectInput(inputId = "typeLinearCorrelated", label = "Type",
-						c("Constant" = "Constant",
-						 "Bernoulli" = "Bernoulli"))
-					)
-				),
-				fluidRow(
-					column(4,
-						actionButton("newLinearCorrelated", "New Material"))
-				)
-		)
+			)
 	)
 )
