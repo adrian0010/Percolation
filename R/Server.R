@@ -3,15 +3,15 @@ server = function(input, output, session) {
 	output$txtTitleSimple = renderText("Percolation: Uniform Random Lattice")
 	output$txtTitleLinear = renderText("Percolation: Linear Channels")
 	output$txtTitleDetails = renderText("Detailed Analysis & Visualization")
-	output$txtTitleLinearCorreleted = renderText("Percolation: Linearly Correlated Procces")
+	output$txtTitleLinearCorrelated = renderText("Percolation: Linearly Correlated Procces")
 	
 	values = reactiveValues();
-	values$m = NULL;
-	values$r = NULL;
-	values$ml = NULL;
-	values$rl = NULL;
-	values$mlc = NULL;
-	values$rlc = NULL;
+	values$mSimple= NULL;
+	values$rSimple= NULL;
+	values$mLinear = NULL;
+	values$rLinear = NULL;
+	values$mLinearCorrelated = NULL;
+	values$rLinearCorrelated = NULL;
 
 
 
@@ -20,7 +20,7 @@ server = function(input, output, session) {
 		print("Se executa")
 	
 		m = rgrid.unif(c(input$heightSimple, input$widthSimple));
-		values$m = m;
+		values$mSimple= m;
 	})
 
 	imageGeneratorLinear = reactive({
@@ -29,7 +29,7 @@ server = function(input, output, session) {
 	
 		m = rgrid.channel.poisson(input$heightLinear /3, input$widthLinear, 
 			d = 1, type = input$blockTypeLinear, ppore = input$probPoreLinear, pBlock = input$probBlockLinear, val = 1.1);
-		values$ml = m;
+		values$mLinear = m;
 	})
 
 	imageGeneratorLinearCorrelated = reactive({
@@ -38,7 +38,7 @@ server = function(input, output, session) {
 		print(input$pChangeLinearCorrelated)
 		m = rgrid.unifCor(dim,
 			pChange = input$pChangeLinearCorrelated, type = input$typeLinearCorrelated);
-		values$mlc = m;
+		values$mLinearCorrelated = m;
 	})
 	
 	analyse.Channels = function(x) {
@@ -100,26 +100,26 @@ server = function(input, output, session) {
 	### Basic Model
 	output$PercolationSimple = renderPlot({
 		imageGeneratorSimple();
-		m = values$m;
+		m = values$mSimple;
 		p = input$probSimple;
 		m = as.grid(m, p);
 		r = flood.all(m);
-		values$r = r;
+		values$rSimple= r;
 		plot.rs(r);
 	})
 
 	output$Statistics = renderTable({
-		if(is.null(values$r)){
+		if(is.null(values$rSimple)){
 			return();
 		}
-		statChannels = analyse.Channels(values$r);
+		statChannels = analyse.Channels(values$rSimple);
 	})
 
 	output$Area = renderTable({
-		if(is.null(values$r)){
+		if(is.null(values$rSimple)){
 			return();
 		}
-		areas = analyse.Area(values$r);
+		areas = analyse.Area(values$rSimple);
 	})
 
 	### Details
@@ -136,10 +136,10 @@ server = function(input, output, session) {
 
 	# Update list of Percolating Channels
 	observe({
-		if(is.null(values$r)){
+		if(is.null(values$rSimple)){
 			return()
 		}
-		ids = idChannels(values$r)
+		ids = idChannels(values$rSimple)
 		updateSelectInput(session, "idDetails",
 			choices = ids,
 			selected = head(ids, 1)
@@ -147,15 +147,15 @@ server = function(input, output, session) {
 	})
 
 	output$plotDetails = renderPlot({
-		if(is.null(values$r)){
+		if(is.null(values$rSimple)){
 			return()
 		}
 		id = input$idDetails;
 		if(input$typeDetails == "Channel Length"){
-			plot.rs(length.path(values$r, id))
+			plot.rs(length.path(values$rSimple, id))
 		}
 		else {
-			plot.surface(values$r, id)
+			plot.surface(values$rSimple, id)
 		}
 	})
 
@@ -163,60 +163,60 @@ server = function(input, output, session) {
 	### Linear Channels
 	output$channelsLinear = renderPlot({
 		imageGeneratorLinear()
-		m = values$ml;
+		m = values$mLinear;
 		p = input$probLinear;
 		m = as.grid(m, p);
 		r = flood.all(m);
-		values$rl = r;
+		values$rLinear = r;
 		# TODO global option
 		plot.rs(expand.channel(r, 3));
 	})
 	
 	output$StatisticsLinear = renderTable({
-		if(is.null(values$rl)){
+		if(is.null(values$rLinear)){
 			return();
 		}
-		statChannels = analyse.Channels(values$rl);
+		statChannels = analyse.Channels(values$rLinear);
 	})
 
 	output$AreaLinear = renderTable({
-		if(is.null(values$rl)){
+		if(is.null(values$rLinear)){
 			return();
 		}
-		areas = analyse.Area(values$rl);
+		areas = analyse.Area(values$rLinear);
 	})
 	
 	output$LengthLinear = renderTable({
-		if(is.null(values$rl)){
+		if(is.null(values$rLinear)){
 			return()
 		}
-		length = length.channel.linear(values$rl)
+		length = length.channel.linear(values$rLinear)
 	})
 
 	
 	### Linearly Correlated Process
 	output$LinearCorrelated = renderPlot({
 		imageGeneratorLinearCorrelated()
-		m = values$mlc;
+		m = values$mLinearCorrelated;
 		p = input$probLinearCorrelated;
 		m = as.grid(m, p);
 		r = flood.all(m);
-		values$rlc = r;
+		values$rLinearCorrelated = r;
 		plot.rs(r);
 	})
 
 	output$StatisticsLinearCorrelated = renderTable({
-		if(is.null(values$rlc)){
+		if(is.null(values$rLinearCorrelated)){
 			return();
 		}
-		statChannels = analyse.Channels(values$rlc);
+		statChannels = analyse.Channels(values$rLinearCorrelated);
 	})
 
 	output$AreaLinearCorrelated = renderTable({
-		if(is.null(values$rlc)){
+		if(is.null(values$rLinearCorrelated)){
 			return();
 		}
-		areas = analyse.Area(values$rlc);
+		areas = analyse.Area(values$rLinearCorrelated);
 	})
 
 
