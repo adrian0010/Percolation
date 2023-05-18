@@ -5,6 +5,7 @@ server = function(input, output, session) {
 	output$txtTitleDetails = renderText("Detailed Analysis & Visualization")
 	output$txtTitleLinearCorrelated = renderText("Percolation: Linearly Correlated Procces")
 	output$txtTitleBinaryCorrelated = renderText("Percolation: Binary Correlated Procces")
+	output$txtTitleLinearLevels = renderText("Channel Levels")
 	
 	values = reactiveValues();
 	values$mSimple= NULL;
@@ -186,7 +187,7 @@ server = function(input, output, session) {
 
 
 
-
+	### Channel Levels
 
 	
 
