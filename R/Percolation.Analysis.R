@@ -514,22 +514,6 @@ height.channel.debug = function(m, verbose = FALSE, val=-1) {
 }
 
 
-which.channels = function(x) {
-	nc = ncol(x);	# numar coloane
-	id1 = unique(x[, 1]);
-	id1 = id1[id1 > 0];
-	id3 = unique(x[, nc]);
-	id3 = id3[id3 > 0];
-	id2 = intersect(id1, id3);
-	if(length(id2) > 0) {
-		id1 = setdiff(id1, id2);
-		id3 = setdiff(id3, id2);
-	}
-	result = list(L = id1, P = id2, R = id3);
-	return (result);
-}
-
-
 analyse.Channels = function(x) {
 	ids = which.channels(x);
 

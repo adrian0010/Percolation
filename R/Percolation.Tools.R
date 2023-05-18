@@ -67,6 +67,32 @@ which.percol = function(m) {
 	idP = intersect(id2, id1);
 	return(idP);
 }
+
+# Which Percolates or all channels
+which.percolates.orAny = function(x) {
+	id = which.percol(x)
+	if(length(id) == 0) {
+		id = unique(x[,1]);
+		id = id[id > 0];
+	}
+	return(id);
+}
+
+which.channels = function(x) {
+	nc = ncol(x);	# numar coloane
+	id1 = unique(x[, 1]);
+	id1 = id1[id1 > 0];
+	id3 = unique(x[, nc]);
+	id3 = id3[id3 > 0];
+	id2 = intersect(id1, id3);
+	if(length(id2) > 0) {
+		id1 = setdiff(id1, id2);
+		id3 = setdiff(id3, id2);
+	}
+	result = list(L = id1, P = id2, R = id3);
+	return (result);
+}
+
 as.logical.percol = function(m, percolates=TRUE) {
 	id = which.percol(m);
 	if( ! percolates) {

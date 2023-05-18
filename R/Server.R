@@ -75,22 +75,13 @@ server = function(input, output, session) {
 
 	### Details
 
-	# Which Percolates or all channels
-	idChannels = function(x) {
-		id = which.percol(x)
-		if(length(id) == 0) {
-			id = unique(x[,1]);
-			id = id[id > 0];
-		}
-		return(id);
-	}
 
 	# Update list of Percolating Channels
 	observe({
 		if(is.null(values$rSimple)){
 			return()
 		}
-		ids = idChannels(values$rSimple)
+		ids = which.percolates.orAny(values$rSimple)
 		updateSelectInput(session, "idDetails",
 			choices = ids,
 			selected = head(ids, 1)
