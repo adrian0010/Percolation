@@ -185,6 +185,19 @@ server = function(input, output, session) {
 		plot.rs(r);
 	})
 
+	observe({
+		m = values$rBinaryCorrelated;
+		if(is.null(m)){
+			return();
+		}
+		# Flood from Right
+		m = flood.rev(m);
+		#
+		statChannels = analyse.Channels(m);
+		statAreas = analyse.Area(m);
+		output$StatisticsBinaryCorrelated = renderTable(statChannels);
+		output$AreaBinaryCorrelated = renderTable(statAreas);
+	})
 
 
 	### Channel Levels
