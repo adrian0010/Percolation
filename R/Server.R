@@ -41,40 +41,7 @@ server = function(input, output, session) {
 		values$mLinearCorrelated = m;
 	})
 	
-	analyse.Channels = function(x) {
-		ids = which.channels(x);
-
-
-		result = data.frame(
-			Channels = c("Left", "Percolating", "Right"),  
-			Number = c(length(ids$L), length(ids$P), length(ids$R)));
-	}
-
-
-	analyse.Area = function(x) {
-		count = table(x)
-		idVal = as.integer(names(count))
-
-		areas = data.frame(ID = idVal,
-							Area = unclass(count))
-
-		ids = which.channels(x);
-		
-
-		countGroup = function(id) {
-			isGroup = which(idVal %in% id);
-			sum(count[isGroup]);
-		}
-
-		result = c(countGroup(-1), countGroup(0), 
-				countGroup(ids$L), countGroup(ids$P), countGroup(ids$R));
-		result = data.frame(
-				Group = c("Blocks", "Free", "Left", "Percolating", "Right"),
-				Area = result);
-
-
-		return(result);
-	}
+	
 
 
 	### Basic Model
