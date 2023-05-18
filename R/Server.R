@@ -42,7 +42,7 @@ server = function(input, output, session) {
 	})
 	
 	analyse.Channels = function(x) {
-		ids = Channels(x);
+		ids = which.channels(x);
 
 
 		result = data.frame(
@@ -50,26 +50,6 @@ server = function(input, output, session) {
 			Number = c(length(ids$L), length(ids$P), length(ids$R)));
 	}
 
-	Channels = function(x) {
-		nc = ncol(x);	# numar coloane
-		id1 = unique(x[,1]);
-		id1 = id1[id1 > 0];
-		id2 = unique(x[,nc]);
-		id2 = id2[id2 > 0];
-		dim = dim(x);
-		x = rev(x);
-		x = array(x, dim);
-		x = flood.all(x, id.start = max(id1)+1);
-		id3 = unique(x[,1]);
-		id3 = id3[id3 > 0];
-		if(length(id2) > 0){
-			id1 = setdiff(id1, id2);
-			id3 = setdiff(id3, id2);
-		}
-		result = list(L = id1, P = id2, R = id3);
-		return (result);
-	}
-	
 
 	analyse.Area = function(x) {
 		count = table(x)
@@ -78,7 +58,7 @@ server = function(input, output, session) {
 		areas = data.frame(ID = idVal,
 							Area = unclass(count))
 
-		ids = Channels(x);
+		ids = which.channels(x);
 		
 
 		countGroup = function(id) {
@@ -125,20 +105,6 @@ server = function(input, output, session) {
 		output$Area = renderTable(statAreas);
 	})
 	
-	Channels = function(x) {
-		nc = ncol(x);	# numar coloane
-		id1 = unique(x[, 1]);
-		id1 = id1[id1 > 0];
-		id3 = unique(x[, nc]);
-		id3 = id3[id3 > 0];
-		id2 = intersect(id1, id3);
-		if(length(id2) > 0) {
-			id1 = setdiff(id1, id2);
-			id3 = setdiff(id3, id2);
-		}
-		result = list(L = id1, P = id2, R = id3);
-		return (result);
-	}
 
 	### Details
 
