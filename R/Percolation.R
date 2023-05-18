@@ -258,6 +258,59 @@ rgrid.unifCor = function(dim, pChange=1/2, type = c("Constant", "Bernoulli")) {
 	return(m)
 }
 
+### Binary Linear Correlation
+# - but Non-Linearly, Non-Monotonically Coupled Process;
+rgrid.correl = function(dim, pChange=1/3, type = c("Constant", "Bernoulli")) {
+	type = match.arg(type);
+	nr = dim[1]; nc = dim[2];
+	m = matrix(FALSE, nrow=nr, ncol=nc);
+	if(nr == 0 || nc == 0) return(m);
+	m[,1] = FALSE;
+	if(nc == 1) return(m);
+	# Subsequent Columns:
+	if(type == "Constant") {
+		nCh = round(nr * pChange);
+		ids = seq(1, nr);
+		for(i in seq(2, nc)) {
+			tmp = rep(FALSE, nr);
+			id  = sample(ids, nCh);
+			tmp[id] = ! tmp[id];
+			m[, i]  = tmp;
+		}
+	} else {
+		for(i in seq(2, nc)) {
+			tmp = rep(FALSE, nr);
+			ids = as.logical(rbinom(nr, 1, pChange));
+			tmp[ids] = ! tmp[ids];
+			m[, i] = tmp;
+		}
+	}
+	return(m);
+}
+
+as.grid.correl = function(x, m.cor, p, val=-1) {
+	nr = nrow(m.cor); nc = ncol(m.cor);
+	if(length(x) != nr) stop("Invalid dimensions of the carry-forward matrix!");
+	m = matrix(0, nrow=nr, ncol=nc);
+	if(nr == 0 || nc == 0) return(m);
+	m[x <= p, 1] = 1;
+	as.grid0 = function(m) {
+		m[m == 0] = val;
+		m[m > 0]  = 0;
+		return(m);
+	}
+	if(nc == 1) {
+		return(as.grid0(m));
+	}
+	# Subsequent Columns:
+	tmp = m[, 1];
+	for(i in seq(2, nc)) {
+		tmp[m.cor[, i]] = 1 - tmp[m.cor[, i]];
+		m[, i] = tmp;
+	}
+	return(as.grid0(m));
+}
+
 
 rlinwalk.gen = function(n, w, d, walk=c(-1,0,1), pwalk=c(1,2,1), ppore=3,
 		first.const=TRUE, duplicate.at=NULL, val=-1) {

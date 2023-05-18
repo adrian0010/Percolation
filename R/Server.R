@@ -4,6 +4,7 @@ server = function(input, output, session) {
 	output$txtTitleLinear = renderText("Percolation: Linear Channels")
 	output$txtTitleDetails = renderText("Detailed Analysis & Visualization")
 	output$txtTitleLinearCorrelated = renderText("Percolation: Linearly Correlated Procces")
+	output$txtTitleBinaryCorrelated = renderText("Percolation: Binary Correlated Procces")
 	
 	values = reactiveValues();
 	values$mSimple= NULL;
@@ -12,6 +13,8 @@ server = function(input, output, session) {
 	values$rLinear = NULL;
 	values$mLinearCorrelated = NULL;
 	values$rLinearCorrelated = NULL;
+	values$mBinaryCorrelated = NULL;
+	values$rBinaryCorrelated = NULL;
 
 
 
@@ -35,10 +38,18 @@ server = function(input, output, session) {
 	imageGeneratorLinearCorrelated = reactive({
 		input$newLinearCorrelated;
 		dim = c(input$heightLinearCorrelated, input$widthLinearCorrelated);
-		print(input$pChangeLinearCorrelated)
 		m = rgrid.unifCor(dim,
 			pChange = input$pChangeLinearCorrelated, type = input$typeLinearCorrelated);
 		values$mLinearCorrelated = m;
+	})
+
+	imageGeneratorBinaryCorrelated = reactive({
+		input$newBinaryCorrelated;
+		dim = c(input$heightBinaryCorrelated, input$widthBinaryCorrelated);
+		col1 = runif(dim[1]);
+		m = rgrid.correl(dim,
+			pChange = input$pChangeBinaryCorrelated, type = input$typeBinaryCorrelated);
+		values$mBinaryCorrelated = list(r = col1, mTransitions = m)
 	})
 	
 	
@@ -160,6 +171,20 @@ server = function(input, output, session) {
 		output$StatisticsLinearCorrelated = renderTable(statChannels);
 		output$AreaLinearCorrelated = renderTable(statAreas);
 	})
+
+	### Binary Correlated 
+
+	output$BinaryCorrelated = renderPlot({
+		imageGeneratorBinaryCorrelated();
+		m = values$mBinaryCorrelated;
+		p = input$probBinaryCorrelated;
+		m = as.grid.correl(m$r, m$mTransitions, p);
+		r = flood.all(m);
+		values$rBinaryCorrelated= r;
+		plot.rs(r);
+	})
+
+
 
 
 

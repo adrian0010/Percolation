@@ -70,6 +70,46 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 						actionButton("newLinearCorrelated", "New Material"))
 				)
 			),
+			tabPanel("Binary Correlated Process",
+				fluidRow(
+					column(4, textOutput("txtTitleBinaryCorrelated"))),
+				fluidRow(
+						column(8, plotOutput("BinaryCorrelated")),
+						# column(4,
+						# 	column(12, fluidRow(tableOutput("StatisticsLinearCorrelated"))),
+						# 	column(12, fluidRow(tableOutput("AreaLinearCorrelated"))),
+						# )
+				),
+				fluidRow(
+					column(4,
+						sliderInput(inputId = "heightBinaryCorrelated", label = "Height",
+							value = 100, min = 40, max = 400, step = 20)
+					),
+					column(4,
+						sliderInput(inputId = "pChangeBinaryCorrelated", label = "Change Probability",
+							value = 0.5, min = 0, max = 1, step = 0.01)
+					),
+					column(4,
+						sliderInput(inputId = "probBinaryCorrelated", label = "Probability Cutoff",
+							value = 0.5, min = 0, max = 1, step = 0.01)
+					)
+				),
+				fluidRow(
+					column(4,
+						sliderInput(inputId = "widthBinaryCorrelated", label = "Width",
+							value = 50, min = 20, max = 200, step = 10)
+					),
+					column(4,
+						selectInput(inputId = "typeBinaryCorrelated", label = "Type",
+						c("Constant" = "Constant",
+						 "Bernoulli" = "Bernoulli"))
+					)
+				),
+				fluidRow(
+					column(4,
+						actionButton("newBinaryCorrelated", "New Material"))
+				)
+			),
 
 			tabPanel("Details",
 				fluidRow(
