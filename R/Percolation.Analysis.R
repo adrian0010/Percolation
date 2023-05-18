@@ -68,6 +68,23 @@ flood.all = function(m, type="Col1", val0=0, id.start, debug=TRUE) {
 	invisible(m)
 }
 
+
+flood.rev = function(x, id.start=NULL) {
+	if(is.null(id.start)) {
+		id.start = max(x[,1]) + 1;
+	}
+	dim = dim(x);
+	x = rev(x);
+	x = array(x, dim);
+	# Flood from "right"
+	x = flood.all(x, id.start=id.start);
+	#
+	x = rev(x);
+	x = array(x, dim);
+	return(x);
+}
+
+
 ### Path Length
 length.path = function(m, id, debug=TRUE) {
 	if(missing(id)) {

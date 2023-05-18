@@ -74,7 +74,7 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 			tabPanel("Details",
 				fluidRow(
 					column(4, textOutput("txtTitleDetails")),
-					column(4, selectInput(inputId = "typeDetails", label = "Analisys Type",
+					column(4, selectInput(inputId = "typeDetails", label = "Analysis Type",
 					c("Channel Length" = "Channel Length", "Border" = "Border"))),
 					column(4, selectInput(inputId = "idDetails", label = "Channel ID",
 					c(1))),

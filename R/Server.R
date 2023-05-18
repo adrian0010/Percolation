@@ -108,19 +108,37 @@ server = function(input, output, session) {
 		plot.rs(r);
 	})
 
-	output$Statistics = renderTable({
-		if(is.null(values$rSimple)){
+		### Analyse
+	
+	# StatisticsSimple
+	observe({
+		m = values$rSimple;
+		if(is.null(m)){
 			return();
 		}
-		statChannels = analyse.Channels(values$rSimple);
+		# Flood from Right
+		m = flood.rev(m);
+		#
+		statChannels = analyse.Channels(m);
+		statAreas = analyse.Area(m);
+		output$Statistics = renderTable(statChannels);
+		output$Area = renderTable(statAreas);
 	})
-
-	output$Area = renderTable({
-		if(is.null(values$rSimple)){
-			return();
+	
+	Channels = function(x) {
+		nc = ncol(x);	# numar coloane
+		id1 = unique(x[, 1]);
+		id1 = id1[id1 > 0];
+		id3 = unique(x[, nc]);
+		id3 = id3[id3 > 0];
+		id2 = intersect(id1, id3);
+		if(length(id2) > 0) {
+			id1 = setdiff(id1, id2);
+			id3 = setdiff(id3, id2);
 		}
-		areas = analyse.Area(values$rSimple);
-	})
+		result = list(L = id1, P = id2, R = id3);
+		return (result);
+	}
 
 	### Details
 
