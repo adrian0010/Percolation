@@ -202,7 +202,15 @@ server = function(input, output, session) {
 
 	### Channel Levels
 
-	
+	output$LinearLevels = renderPlot({
+		if(is.null(values$rLinear)){
+			return()
+		}
+		m = values$rLinear;
+		m = height.channel.all(m)
+		m[m > 1] = m[m > 1] + 2;
+		plot.rs(expand.channel(m, 3))
+	})
 
 }
 

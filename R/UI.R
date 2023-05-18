@@ -170,6 +170,15 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 						actionButton("newLinear", "New Material"))
 				)
 				
+			),
+			tabPanel("Channel Levels",
+				fluidRow(
+					column(4, textOutput("txtTitleLinearLevels"))
+				),
+				fluidRow(
+					column(8, plotOutput("LinearLevels"))
+				),
+				
 			)
 	)
 )
