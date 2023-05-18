@@ -189,19 +189,20 @@ server = function(input, output, session) {
 		plot.rs(r);
 	})
 
-	output$StatisticsLinearCorrelated = renderTable({
-		if(is.null(values$rLinearCorrelated)){
+	observe({
+		m = values$rLinearCorrelated;
+		if(is.null(m)){
 			return();
 		}
-		statChannels = analyse.Channels(values$rLinearCorrelated);
+		# Flood from Right
+		m = flood.rev(m);
+		#
+		statChannels = analyse.Channels(m);
+		statAreas = analyse.Area(m);
+		output$StatisticsLinearCorrelated = renderTable(statChannels);
+		output$AreaLinearCorrelated = renderTable(statAreas);
 	})
 
-	output$AreaLinearCorrelated = renderTable({
-		if(is.null(values$rLinearCorrelated)){
-			return();
-		}
-		areas = analyse.Area(values$rLinearCorrelated);
-	})
 
 
 	
