@@ -8,8 +8,8 @@ server = function(input, output, session) {
 	output$txtTitleLinearLevels = renderText("Channel Levels")
 	
 	values = reactiveValues();
-	values$mSimple= NULL;
-	values$rSimple= NULL;
+	values$mSimple = NULL;
+	values$rSimple = NULL;
 	values$mLinear = NULL;
 	values$rLinear = NULL;
 	values$mLinearCorrelated = NULL;
@@ -24,7 +24,7 @@ server = function(input, output, session) {
 		print("Se executa")
 	
 		m = rgrid.unif(c(input$heightSimple, input$widthSimple));
-		values$mSimple= m;
+		values$mSimple = m;
 	})
 
 	imageGeneratorLinear = reactive({
@@ -90,10 +90,18 @@ server = function(input, output, session) {
 
 	# Update list of Percolating Channels
 	observe({
-		if(is.null(values$rSimple)){
+		model = input$modelDetails;
+		if(model == "Simple Model") {
+			r = values$rSimple
+		} else if (model == "Linearly Correlated") {
+		   r = values$rLinearCorrelated
+		} else {
+		   r = values$rBinaryCorrelated
+		}
+		if(is.null(r)){
 			return()
 		}
-		ids = which.percolates.orAny(values$rSimple)
+		ids = which.percolates.orAny(r)
 		updateSelectInput(session, "idDetails",
 			choices = ids,
 			selected = head(ids, 1)
@@ -101,15 +109,24 @@ server = function(input, output, session) {
 	})
 
 	output$plotDetails = renderPlot({
-		if(is.null(values$rSimple)){
+		model = input$modelDetails;
+		if(model == "Simple Model") {
+			r = values$rSimple
+		} else if (model == "Linearly Correlated") {
+		   r = values$rLinearCorrelated
+		} else {
+		   r = values$rBinaryCorrelated
+		}
+		
+		if(is.null(r)){
 			return()
 		}
 		id = input$idDetails;
 		if(input$typeDetails == "Channel Length"){
-			plot.rs(length.path(values$rSimple, id))
+			plot.rs(length.path(r, id))
 		}
 		else {
-			plot.surface(values$rSimple, id)
+			plot.surface(r, id)
 		}
 	})
 
