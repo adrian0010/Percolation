@@ -158,11 +158,25 @@ server = function(input, output, session) {
 	})
 	
 	output$LengthLinear = renderTable({
-		if(is.null(values$rLinear)){
-			return()
-		}
-		length = length.channel.linear(values$rLinear)
-	})
+	r = values$rLinear;
+	if(is.null(r)) {
+		return();
+	}
+	length = length.channel.linear(r);
+	length = merge(length, as.df.id(which.channels(r)), by = "id");
+	length = tapply(length$Len, length$Group, function(x) {
+		# Stats:
+		data.frame(Length = mean(x), Median = median(x));
+	});
+	length = lapply(names(length), function(nm) {
+		tmp = length[[nm]];
+		tmp$Group = nm;
+		return(tmp);
+	});
+	length = do.call(rbind, length);
+	length = length[c("Group", "Length", "Median")];
+	return(length);
+})
 
 	
 	### Linearly Correlated Process

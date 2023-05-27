@@ -106,6 +106,21 @@ as.logical.percol = function(m, percolates=TRUE) {
 	invisible(isE);
 }
 
+as.df.id = function(x) {
+	if(length(x$L) > 0) {
+		idf = data.frame(Group = "Left", id = x$L);
+	} else {
+		idf = data.frame(Group = character(0), id = numeric(0));
+	}
+	if(length(x$P) > 0) {
+		idf = rbind(idf, data.frame(Group = "Percolating", id = x$P));
+	}
+	if(length(x$R) > 0) {
+		idf = rbind(idf, data.frame(Group = "Right", id = x$R));
+	}
+	return(idf);
+}
+
 ### Extract id of Path:
 # TODO: new name which.max.outflow;
 # - path which percolates and has largest outflow;
