@@ -203,3 +203,52 @@ expand.channel = function(m, d=3, d0=1) {
 	mr = m[id,];
 	invisible(mr);
 }
+
+as.graph.percol = function(m, id = 1) {
+	rows = nrow(m)
+	cols = ncol(m)
+	v = integer(0)
+	for (nc in seq(cols - 1)){
+		for (nr in seq(rows - 1)){
+			if(m[nr, nc] != id) next;
+			npos = (nc - 1)*rows + nr 
+			if(m[nr + 1, nc] == id){
+				v = c(v, npos, npos + 1);
+			}
+			if(m[nr, nc + 1] == id){
+				v = c(v, npos, npos + rows);
+			}
+
+		}
+	}
+	for(nc in seq(cols - 1)){
+		if(m[rows, nc] != id) next;
+		if(m[rows, nc + 1] == id){
+			npos = (nc - 1)*rows + nr
+			v = c(v, npos, npos + rows);
+		}
+	}
+	for(nr in seq(rows - 1)){
+		if(m[nr, cols] != id) next;
+		if(m[nr+1, cols] == id){
+			npos = (nc - 1)*rows + nr
+			v = c(v, npos, npos + 1);
+		}
+	}
+	# v = matrix(v, ncol = 2, byrows = TRUE)
+	idMax = max(v)
+	nStart = which(m[,1] == id);
+	nStart = rbind(idMax + 1, nStart);
+	v = c(nStart, v)
+
+	nEnd = which(m[,cols] == id) + (cols - 1)*rows;
+	nEnd = rbind(nEnd, idMax + 2);
+	v = c(v, nEnd);
+
+	graph = make_undirected_graph(v, n = idMax + 2)
+
+	attr(graph, "entry") = c(idMax + 1, idMax+2);
+
+	return(invisible(graph))
+
+}

@@ -2,6 +2,7 @@ library(shiny)
 library(shinyjs)
 library(shinyBS)
 library(Rcpp)
+library(igraph)
 
 setwd("/home/adrian/Facultate/Licenta/Percolation/R/")
 
