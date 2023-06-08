@@ -114,7 +114,7 @@ a0; a1; a1 / a0;
 
 ### Ex 2:
 dims = c(80, 80)
-p = 0.45
+p = 0.42
 
 m = sample(c(-1, 0), prod(dims), replace=T, prob=c(p, 1-p))
 m = matrix(m, nrow=dims[1])

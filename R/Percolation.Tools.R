@@ -218,7 +218,6 @@ as.graph.percol = function(m, id = 1) {
 			if(m[nr, nc + 1] == id){
 				v = c(v, npos, npos + rows);
 			}
-
 		}
 	}
 	for(nc in seq(cols - 1)){
@@ -251,4 +250,45 @@ as.graph.percol = function(m, id = 1) {
 
 	return(invisible(graph))
 
+}
+
+which.neighbors = function(m, npos, val = -1) {
+	npos = unique(npos);
+	rows = nrow(m)
+	cols = ncol(m)
+	npos = npos - 1
+	nr = npos %% rows + 1
+	nc = npos %/% rows + 1
+	tmp = integer(0)
+	for (id in seq_along(npos)){
+		isNotFirstRow = nr[id] != 1
+		isNotFirstCol = nc[id] != 1
+		isNotLastRow = nr[id] != rows
+		isNotLastCol = nc[id] != cols
+		if(isNotFirstCol){
+			if(isNotFirstRow && m[nr[id] - 1, nc[id] - 1] == val) tmp = c(tmp, (nc[id] - 2)*rows + nr[id] - 1);
+			if(				    m[nr[id]	, nc[id] - 1] == val) tmp = c(tmp, (nc[id] - 2)*rows + nr[id]    );
+			if(isNotLastRow  && m[nr[id] + 1, nc[id] - 1] == val) tmp = c(tmp, (nc[id] - 2)*rows + nr[id] + 1);
+		}
+		if(isNotLastCol){
+			if(isNotFirstRow && m[nr[id] - 1, nc[id] + 1] == val) tmp = c(tmp, (nc[id]    )*rows + nr[id] - 1);
+			if(				    m[nr[id]    , nc[id] + 1] == val) tmp = c(tmp, (nc[id]    )*rows + nr[id]    );
+			if(isNotLastRow  && m[nr[id] + 1, nc[id] + 1] == val) tmp = c(tmp, (nc[id]    )*rows + nr[id] + 1);
+		}
+		if(isNotFirstRow && m[nr[id] - 1, nc[id]    ] == val) tmp = c(tmp, (nc[id] - 1)*rows + nr[id] - 1);
+		if(isNotLastRow  && m[nr[id] + 1, nc[id]    ] == val) tmp = c(tmp, (nc[id] - 1)*rows + nr[id] + 1);	
+	}
+	tmp = unique(tmp);
+	tmp = sort(tmp);
+	return (tmp);
+}
+
+minCut = function(m, id){
+	graph = as.graph.percol(m, id = id);
+	idE = attr(graph, "entry");
+	idC = min_cut(graph, source = idE[1], target = idE[2], value.only = FALSE);
+	edge = as.integer(idC$cut)
+	idN = which.neighbors(m, get.edgelist(graph)[edge,]);
+	lst = list(value = idC$value, nodes = idC$cut, neighbors = idN)
+	return (lst);
 }

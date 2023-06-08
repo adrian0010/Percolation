@@ -125,3 +125,10 @@ plot.surface = function(m, id, col = "#1624C0") {
 	img[csf] = col;
 	plot.rs(img);
 }
+
+plot.minCut = function(m, id, col = "#1624C0") {
+	npos = minCut(m, id)
+	img = toRaster(m);
+	img[npos$neighbors] = col;
+	plot.rs(img);
+}

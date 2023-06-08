@@ -6,6 +6,7 @@ server = function(input, output, session) {
 	output$txtTitleLinearCorrelated = renderText("Percolation: Linearly Correlated Procces")
 	output$txtTitleBinaryCorrelated = renderText("Percolation: Binary Correlated Procces")
 	output$txtTitleLinearLevels = renderText("Channel Levels")
+	output$txtTitleHelp = renderText("Help")
 	
 	values = reactiveValues();
 	values$mSimple = NULL;
@@ -124,9 +125,11 @@ server = function(input, output, session) {
 		id = input$idDetails;
 		if(input$typeDetails == "Channel Length"){
 			plot.rs(length.path(r, id))
+		}else if(input$typeDetails == "Border"){
+			plot.surface(r, id)
 		}
 		else {
-			plot.surface(r, id)
+			plot.minCut(r, id)
 		}
 	})
 

@@ -117,7 +117,7 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 					column(4, selectInput(inputId = "modelDetails", label = "Model type",
 					c("Simple Model", "Linearly Correlated", "Binary Correlated"))),
 					column(4, selectInput(inputId = "typeDetails", label = "Analysis Type",
-					c("Channel Length" = "Channel Length", "Border" = "Border"))),
+					c("Channel Length" = "Channel Length", "Border" = "Border", "MinCut" = "MinCut"))),
 					column(4, selectInput(inputId = "idDetails", label = "Channel ID",
 					c(1))),
 				),
@@ -181,6 +181,11 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 					column(8, plotOutput("LinearLevels"))
 				),
 				
+			),
+			tabPanel("Help",
+				fluidRow(
+					column(4, textOutput("txtTitleHelp"))
+				)
 			)
 	)
 )
