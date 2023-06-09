@@ -3,8 +3,8 @@ server = function(input, output, session) {
 	output$txtTitleSimple = renderText("Percolation: Uniform Random Lattice")
 	output$txtTitleLinear = renderText("Percolation: Linear Channels")
 	output$txtTitleDetails = renderText("Detailed Analysis & Visualization")
-	output$txtTitleLinearCorrelated = renderText("Percolation: Linearly Correlated Procces")
-	output$txtTitleBinaryCorrelated = renderText("Percolation: Binary Correlated Procces")
+	output$txtTitleLinearCorrelated = renderText("Percolation: Linearly Correlated Process")
+	output$txtTitleBinaryCorrelated = renderText("Percolation: Binary Correlated Process")
 	output$txtTitleLinearLevels = renderText("Channel Levels")
 	output$txtTitleHelp = renderText("Help")
 	

@@ -220,17 +220,21 @@ as.graph.percol = function(m, id = 1) {
 			}
 		}
 	}
-	for(nc in seq(cols - 1)){
+	# Last row:
+	for(nc in seq(cols - 1)) {
 		if(m[rows, nc] != id) next;
-		if(m[rows, nc + 1] == id){
-			npos = (nc - 1)*rows + nr
+		if(m[rows, nc + 1] == id) {
+			# Note: (nc - 1) * rows + rows = nc * rows;
+			npos = nc * rows; # <= this is on the last row;
 			v = c(v, npos, npos + rows);
 		}
 	}
+	# Last column:
+	prevCols = (cols - 1)*rows; # Optimization
 	for(nr in seq(rows - 1)){
 		if(m[nr, cols] != id) next;
-		if(m[nr+1, cols] == id){
-			npos = (nc - 1)*rows + nr
+		if(m[nr+1, cols] == id) {
+			npos = prevCols + nr;
 			v = c(v, npos, npos + 1);
 		}
 	}
