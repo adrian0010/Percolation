@@ -548,3 +548,21 @@ analyse.Area = function(x) {
 
 	return(result);
 }
+
+minCut = function(m, id) {
+    graph = as.graph.percol(m, id = id);
+    idE = attr(graph, "entry");
+    idC = min_cut(graph, source = idE[1], target = idE[2], value.only = FALSE);
+    edge = as.integer(idC$cut);
+    ids = get.edgelist(graph)[edge,];
+    idEntry = which(ids %in% idE); # Graph Entry
+    if(length(idEntry) > 0) {
+  	  print("Min-Cut: Graph Entry!");
+  	  ids = ids[ - idEntry];
+    }
+    idN = which.neighbors(m, ids);
+    print(paste0("Finished Neighbours: ", length(idN))); # for DEBUG
+    lst = list(value = idC$value, nodes = idC$cut, neighbors = idN,
+  	  part = prune.part(idC$partition2, idE));
+    return (lst);
+}

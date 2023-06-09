@@ -126,9 +126,12 @@ plot.surface = function(m, id, col = "#1624C0") {
 	plot.rs(img);
 }
 
-plot.minCut = function(m, id, col = "#1624C0") {
+plot.minCut = function(m, id, col = "#1624C0", col.part = "#F0F000") {
 	npos = minCut(m, id)
 	img = toRaster(m);
 	img[npos$neighbors] = col;
+	if( ! is.null(col.part)){
+		img[npos$part] = col.part;
+	}
 	plot.rs(img);
 }

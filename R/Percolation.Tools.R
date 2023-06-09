@@ -257,6 +257,7 @@ as.graph.percol = function(m, id = 1) {
 }
 
 which.neighbors = function(m, npos, val = -1) {
+	if(length(npos) == 0) return(integer(0));
 	npos = unique(npos);
 	rows = nrow(m)
 	cols = ncol(m)
@@ -287,12 +288,8 @@ which.neighbors = function(m, npos, val = -1) {
 	return (tmp);
 }
 
-minCut = function(m, id){
-	graph = as.graph.percol(m, id = id);
-	idE = attr(graph, "entry");
-	idC = min_cut(graph, source = idE[1], target = idE[2], value.only = FALSE);
-	edge = as.integer(idC$cut)
-	idN = which.neighbors(m, get.edgelist(graph)[edge,]);
-	lst = list(value = idC$value, nodes = idC$cut, neighbors = idN)
-	return (lst);
+prune.part = function(x, id) {
+	idE = which(x %in% id);
+	x = x[ - idE];
+	invisible(x);
 }
