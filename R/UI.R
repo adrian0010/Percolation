@@ -46,7 +46,7 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 							value = 100, min = 40, max = 400, step = 20)
 					),
 					column(4,
-						sliderInput(inputId = "pChangeLinearCorrelated", label = "Change Probability",
+						sliderInput(inputId = "pChangeLinearCorrelated", label = "Probability of Column Change",
 							value = 0.5, min = 0, max = 1, step = 0.01)
 					),
 					column(4,
@@ -86,7 +86,7 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 							value = 100, min = 40, max = 400, step = 20)
 					),
 					column(4,
-						sliderInput(inputId = "pChangeBinaryCorrelated", label = "Change Probability",
+						sliderInput(inputId = "pChangeBinaryCorrelated", label = "Probability of Column Change",
 							value = 0.5, min = 0, max = 1, step = 0.01)
 					),
 					column(4,
@@ -148,7 +148,7 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 					),
 					column(4,
 						sliderInput(inputId = "probPoreLinear", label = "Pore prob",
-							value = 4, min = 0, max = 10, step = 0.1)
+							value = 4, min = 0, max = 10, step = 1)
 					)
 				),
 				fluidRow(
@@ -164,7 +164,7 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 						 "Range 1:n" = "1:n"))),
 					column(4,
 						sliderInput(inputId = "probBlockLinear", label = "Block prob",
-							value = 5, min = 0, max = 10, step = 0.1)
+							value = 5, min = 0, max = 10, step = 1)
 					)
 				),
 				fluidRow(
@@ -183,9 +183,7 @@ ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),
 				
 			),
 			tabPanel("Help",
-				fluidRow(
-					column(4, textOutput("txtTitleHelp"))
-				)
+				uiOutput("HelpUI")
 			)
 	)
 )

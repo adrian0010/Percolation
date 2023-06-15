@@ -246,7 +246,36 @@ server = function(input, output, session) {
 		plot.rs(expand.channel(m, 3))
 	})
 
-}
+	### Help
+
+	idHelp = reactiveVal("Help1")
+	output$HelpUI = renderUI({
+		helper (id = idHelp())
+	})
+	checkHelp = function(tag){
+		if (idHelp() == tag){
+			idHelp("Help0")
+		}
+		else {
+		   idHelp(tag);
+		}
+	}
+	observeEvent(input$Help1, {
+		checkHelp("Help1")
+	})
+	observeEvent(input$Help2, {
+		checkHelp("Help2");
+	})
+	observeEvent(input$Help3, {
+		checkHelp("Help3");
+	})
+	observeEvent(input$Help4, {
+		checkHelp("Help4");
+	})
+	# observeEvent(input$Help5, {
+	# 	checkHelp("Help5");
+	# })
+	}
 
 # val.unique = unique(r[1])
 

@@ -15,5 +15,6 @@ cppFunction(FUN)
 source("UI.R")
 source("Server.R")
 source("Percolation.R")
+source("Percolation.HelpUI.R")
 
 shinyApp(ui = ui, server = server, options = list(port = 9090))
