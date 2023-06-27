@@ -1,3 +1,4 @@
+source("Percolation.HelpUI.R")
 
 
 ui = fluidPage("Simulation of diffusion processes", shinyjs::useShinyjs(),

@@ -1,7 +1,9 @@
 ########################
+###	Adrian Ivan
 ###
-### Leonard Mada
-### [the one and only]
+### Improved and extended the previous work
+### Initial version: Leonard Mada
+### Project for students: 2020-2022
 ###
 ### Percolation
 ### Basic Helper Functions
