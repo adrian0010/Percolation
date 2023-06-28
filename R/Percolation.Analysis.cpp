@@ -1,14 +1,4 @@
-// Student: Adrian Ivan
-// Candidate BSc CS 2023
-// West University, Timisoara
 
-// Supervisors:
-// Prof. Dr. Daniela Zaharie
-// Dr. med. Leonard Mada (Syonic SRL)
-
-// URL: https://github.com/adrian0010/Percolation
-
-// Based on Previous Projects (2020-2022)
 
 NumericVector heightChannel(IntegerVector xStart, NumericVector m,
 		const int nRows, const int nCols,
