@@ -272,9 +272,9 @@ server = function(input, output, session) {
 	observeEvent(input$Help4, {
 		checkHelp("Help4");
 	})
-	# observeEvent(input$Help5, {
-	# 	checkHelp("Help5");
-	# })
+	observeEvent(input$Help5, {
+		checkHelp("Help5");
+	})
 	}
 
 # val.unique = unique(r[1])
