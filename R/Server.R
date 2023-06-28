@@ -1,4 +1,16 @@
-	### Server
+### Server
+# Student: Adrian Ivan
+# Candidate BSc CS 2023
+# West University, Timisoara
+
+# Supervisors:
+# Prof. Dr. Daniela Zaharie
+# Dr. med. Leonard Mada (Syonic SRL)
+
+# URL: https://github.com/adrian0010/Percolation
+
+# Based on Previous Projects (2020-2022)
+
 server = function(input, output, session) {
 	output$txtTitleSimple = renderText("Percolation: Uniform Random Lattice")
 	output$txtTitleLinear = renderText("Percolation: Linear Channels")
