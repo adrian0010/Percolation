@@ -19,7 +19,7 @@ helper = function(id = "Help1"){
 			txt = "Consists of a rectangular grid created using a random uniform distribution. The probability cutoff 
 				specifies the value above which the grid points become pores and below which they become solid material.", 
 			
-			P = "probability Cutoff = the value above which the grid points become pores and below which they become solid material."),
+			P = c("Probability Cutoff = the value above which the grid points become pores and below which they become solid material.")),
 
 		"Linearly Correlated Model" = list(
 			txt = "Consists of a rectangular grid in which each subsequent column 
@@ -29,7 +29,11 @@ helper = function(id = "Help1"){
 				random uniform distribution. The probability cutoff specifies the value above 
 				which the grid points become pores and below which they become solid material.",
 		
-				P = ""),
+			P = c("Probability Cutoff = the value above which the grid points become pores and below which they become solid material.",
+				"Probability of Column Change = probability that the values in the subsequent columns are regenerated",
+				"Type: Constant = a constant number of values are regenerated in each column;",
+				"Type: Bernouly = the number of values which are regenerated varies in each column according
+				to a Poisson process with λ = pChange.")),
 		
 		"Binary Correlated Model" = list(
 			txt = "Consists of a rectangular grid in which the binary state of each 
@@ -40,7 +44,11 @@ helper = function(id = "Help1"){
 				uniform distribution. The probability cutoff specifies the value above which 
 				the grid points become pores and below which they become solid material.",
 		
-				P = c("")),
+			P = c("Probability Cutoff = the value above which the grid points become pores and below which they become solid material.",
+				"Probability of Column Change = probability that the values in the subsequent colum is the state of the previous column or is inverted.",
+				"Type: Constant = a constant number of values are regenerated in each column;",
+				"Type: Bernouly = the number of values which are regenerated varies in each column according
+				to a Poisson process with λ = pChange.")),
 		
 		"Details" = list(
 			txt = "Implements 3 methods to perform an advanced analysis of a specific cluster. The first 
@@ -57,7 +65,8 @@ helper = function(id = "Help1"){
 				by straight walls. Each channel can be either patent or blocked by one or more blocks. 
 				Neighbouring channels can communicate through pores through the channel walls.",
 				
-			P = c("Pore probability = the average number of pores in each channel wall; the number 
+			P = c("Probability Cutoff = the value above which the grid points become pores and below which they become solid material.",
+				"Pore probability = the average number of pores in each channel wall; the number 
 				of pores varies randomly according to a Poisson process with parameter lambda = this value;",
 				"Block probability = probability of blocks; the meaning differs slightly based on block type;",
 				"Block type = specifies the type of blocks; there are 4 variants;",
