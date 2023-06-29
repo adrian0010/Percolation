@@ -11,6 +11,8 @@ The primary focus of this project is the simulation of certain biophysical or bi
 install.packages("shiny")
 install.packages("shinyjs")
 install.packages("shinyBS")
+install.packages("Rcpp")
+install.packages("igraph")
 ```
 
 ### Run
@@ -22,10 +24,10 @@ You need to do the following to run the application
 
 2.  Run this script: [Percolation.App.R](/R/Percolation.App.R) 
 
-     - If the webserver does not start paste this line in the R interpreter:
+     - Then run the run() funtion in the interpreter
 
 ```R
-shinyApp(ui=ui, server=server, options = list(port = 9090))
+run()
 ```
 
 If the webserver does not start, it could be because port 9090 is already being used by another application. In this case, you can try changing the port number.
